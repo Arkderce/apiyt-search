@@ -1,7 +1,6 @@
 
 ### Description
- Program sends request for search results and saves answer as dictionary in form:
- keys: title, values: data of upload,
+ Program sends request for search results and saves answer as list
  if given response has any video that has newer data of upload
  code gets triggered and notifies
  user about new video with popup on desktop
@@ -24,12 +23,17 @@ $ pip install --upgrade google-api-python-client
 ```
 
 Requires DEVELOPER KEY from google
-Get it from code.google.com/apis/console
-Paste it into main.py
+get it from code.google.com/apis/console
+paste it into main.py
                                                                                                                                                                      
 To write keyword put in console 
 ```sh
 $ python main.py --q YOURKEYWORD
+```
+
+To open browser after notification put in console
+```sh
+$ python main.py --open-browser 1
 ```
 
 ### Tips
