@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import time
+from subprocess import call
 import webbrowser
 import notifier
 from googleapiclient.discovery import build
@@ -59,6 +60,10 @@ def notify_user(namesDict, browserarg):
     if browserarg.open_browser != False: #Open browser after notification period if user asked for that
         open_browser(str(namesDict['videoId']))
 
+def download_video(namesDict):
+    invokeLink = str(namesDict['videoId'])
+    call("youtube-dl" + " " + invokeLink)
+
 if __name__ == "__main__":
   # Set arguments for search
     argparser.add_argument("--q", help="Search term", default="music")
@@ -66,6 +71,7 @@ if __name__ == "__main__":
     argparser.add_argument("--order", help="Order", default="date")
   # Set arguments for other functions
     argparser.add_argument("--open-browser", help="Open browser", default=False)
+    argparser.add_argument("--dl-video", help="Download video", default=False)
     args = argparser.parse_args()
 
     try:
@@ -73,6 +79,8 @@ if __name__ == "__main__":
     except HttpError, e:
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
     notify_user(namesDict, args)
+    if args.dl_video != False:
+        download_video(namesDict)
 
   # Silently check if new video appeared
     while True:
@@ -81,3 +89,6 @@ if __name__ == "__main__":
         if newNamesDict != False:
             namesDict = newNamesDict
             notify_user(namesDict, args)
+            if args.dl_video != False:
+                download_video(namesDict)
+

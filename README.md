@@ -4,9 +4,11 @@ Code is designed to look for new videos in youtube and notify user about found o
  
 Used libs:                                                                        
  PYWIN32                                                                           
-   For notification popup    !!!WORKS ONLY FOR WINDOWS!!!                                                                                                                                     
+   Notification popup    !!!WORKS ONLY FOR WINDOWS!!!                                                                                                                                     
  YOUTUBE API v3                                                                    
-   To search new videos on youtube.com  
+   Search new videos on youtube.com  
+ YOUTUBE-DL
+   Download video
 
 ### Usage 
 Install pywin32 from link:
@@ -15,6 +17,11 @@ https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/
 Install youtube api v3:
 ```sh
 $ pip install --upgrade google-api-python-client
+```
+
+Install youtube dl:
+```sh
+$ pip install --upgrade youtube-dl
 ```
 
 Requires DEVELOPER KEY from google
@@ -29,6 +36,11 @@ $ python main.py --q YOURKEYWORD
 To open browser after notification put in console
 ```sh
 $ python main.py --open-browser 1
+```
+
+To download found video
+```sh
+$ python main.py --dl-video 1
 ```
 
 ### Tips
