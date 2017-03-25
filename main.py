@@ -6,30 +6,6 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from oauth2client.tools import argparser
 
-
-# Compare new list with old one
-# If any newer date appeared, return new list, else return false
-def check_new(namesList):
-    try:
-        newList = youtube_search(args)
-        if namesList[1] < newList[1]:
-            return newList
-        else:
-            return False
-    except HttpError, e:
-        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
-
-def open_browser(url):
-    new = 2 # open in a new tab, if possible
-    webbrowser.open(url,new=new)
-
-# Notify user that new video appeared
-def notify_user(namesList, browserarg):
-    titleofvideo = namesList[0].encode('utf-8')
-    notifier.ballun("Newest video", str(titleofvideo))     #Invoke notification on desktop
-    if browserarg.open_browser != False: #Open browser after notification period if user asked for that
-        open_browser(str(namesList[2]))
-
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
 #   https://cloud.google.com/console
@@ -51,15 +27,37 @@ def youtube_search(options):
         order=options.order,
     ).execute()
 
-    videos = []
+    videos = {}
   # Add each result to dictionary
     for search_result in search_response.get("items", []):
         if search_result["id"]["kind"] == "youtube#video":
-            videos.append(search_result["snippet"]["title"])
-            videos.append(search_result["snippet"]["publishedAt"])
-            videos.append("https://www.youtube.com/watch?v=" + str(search_result["id"]["videoId"]))
+            videos['title'] = search_result["snippet"]["title"]
+            videos['publishedAt'] = search_result["snippet"]["publishedAt"]
+            videos['videoId'] = "https://www.youtube.com/watch?v=" + str(search_result["id"]["videoId"])
     return videos
 
+# Compare new dictionary with old one
+# If any newer date appeared, return new dictionary, else return false
+def check_new(namesDict):
+    try:
+        newNamesDict = youtube_search(args)
+        if namesDict['publishedAt'] < newNamesDict['publishedAt']:
+            return newNamesDict
+        else:
+            return False
+    except HttpError, e:
+        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+
+def open_browser(url):
+    new = 2 # open in a new tab, if possible
+    webbrowser.open(url, new=new)
+
+# Notify user that new video appeared
+def notify_user(namesDict, browserarg):
+    titleofvideo = namesDict['title'].encode('utf-8')
+    notifier.ballun("Newest video", str(titleofvideo))     #Invoke notification on desktop
+    if browserarg.open_browser != False: #Open browser after notification period if user asked for that
+        open_browser(str(namesDict['videoId']))
 
 if __name__ == "__main__":
   # Set arguments for search
@@ -71,15 +69,15 @@ if __name__ == "__main__":
     args = argparser.parse_args()
 
     try:
-        namesList = youtube_search(args)
+        namesDict = youtube_search(args)
     except HttpError, e:
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
-    notify_user(namesList, args)
+    notify_user(namesDict, args)
 
   # Silently check if new video appeared
     while True:
         time.sleep(60.0)
-        value = check_new(namesList)
-        if value != False:
-            namesList = value
-            notify_user(namesList, args)
+        newNamesDict = check_new(namesDict)
+        if newNamesDict != False:
+            namesDict = newNamesDict
+            notify_user(namesDict, args)

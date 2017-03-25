@@ -1,11 +1,6 @@
 
 ### Description
- Program sends request for search results and saves answer as list
- if given response has any video that has newer data of upload
- code gets triggered and notifies
- user about new video with popup on desktop
- otherwise stays silent in background and watches anime.
- 
+Code is designed to look for new videos in youtube and notify user about found ones.
  
 Used libs:                                                                        
  PYWIN32                                                                           
