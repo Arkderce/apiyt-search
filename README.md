@@ -44,7 +44,7 @@ $ python main.py --dl-video 1
 ```
 
 ### Example of usage
-![Screenshot](test.png)
+![alt text](test.PNG)
 
 ### Tips
 If you need titles from youtube its good to encode them with:
