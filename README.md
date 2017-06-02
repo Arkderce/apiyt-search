@@ -1,10 +1,10 @@
 
 ### Description
-Code is designed to look for new videos in youtube and notify user about found ones.
+Look for new videos in youtube and notify user about found ones with desktop popup that contains video title
  
 Used libs:                                                                        
  PYWIN32                                                                           
-   Notification popup    !!!WORKS ONLY FOR WINDOWS!!!                                                                                                                                     
+   Notification popup    Only for Windows                                                                                                                                      
  YOUTUBE API v3                                                                    
    Search new videos on youtube.com  
  YOUTUBE-DL
