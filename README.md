@@ -43,6 +43,9 @@ To download found video
 $ python main.py --dl-video 1
 ```
 
+### Example of usage
+![Screenshot](test.png)
+
 ### Tips
 If you need titles from youtube its good to encode them with:
 `value.encode('utf-8')`
